@@ -19,9 +19,9 @@ src/config.js
 
 ## 截图
 
-![home.jpg](https://ent.cuiwei.net/screenshots/user/home.jpg)
-![cases.jpg](https://ent.cuiwei.net/screenshots/user/cases.jpg)
-![news.jpg](https://ent.cuiwei.net/screenshots/user/news.jpg)
+![11.jpg](https://ent.cuiwei.net/screenshots/admin/11.jpg)
+![22.jpg](https://ent.cuiwei.net/screenshots/admin/22.jpg)
+![33.jpg](https://ent.cuiwei.net/screenshots/admin/33.jpg)
 
 # 运行
 
