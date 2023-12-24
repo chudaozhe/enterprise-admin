@@ -4,6 +4,6 @@ const host = function(){
 	let ln = window.location;
 	//ent.cw.net
 	//http://localhost:7097
-	return ln.href.indexOf("localhost") > 0 ? 'http://localhost' : "https://ent.cuiwei.net";
+	return ln.href.indexOf("localhost") > 0 ? 'http://localhost' : "https://ent.uqiantu.com";
 };
 global.host = host();

@@ -39,7 +39,7 @@
 		name: 'all-img',
 		data() {
 			return {
-				host:global.host+"/",
+				host:global.host,
 				cid:0,
 				keyword:'',
 				thisKey: '',
