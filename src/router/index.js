@@ -1,71 +1,96 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { useUserInfoStore } from "@/stores/store";
 
-import Login from '@/components/login'
-import Admin from '@/components/admin'
+import {ElMessage} from "element-plus";
 
-import AdminList from '@/components/admin/index'
-import AdminDetail from '@/components/admin/detail'
+import Login from '@/views/login.vue'
+import Admin from '@/views/admin.vue'
 
-import FileList from '@/components/file/index'
+import AdminList from '@/views/admin/index.vue'
+import AdminDetail from '@/views/admin/detail.vue'
 
-import CaseList from '@/components/case/index'
-import CaseDetail from '@/components/case/detail'
+import FileList from '@/views/file/index.vue'
 
-import CategoryList from '@/components/category/index'
-import CategoryDetail from '@/components/category/detail'
+import CaseList from '@/views/case/index.vue'
+import CaseDetail from '@/views/case/detail.vue'
 
-import PageList from '@/components/page/index'
-import PageDetail from '@/components/page/detail'
+import CategoryList from '@/views/category/index.vue'
+import CategoryDetail from '@/views/category/detail.vue'
 
-import ArticleList from '@/components/article/index'
-import ArticleDetail from '@/components/article/detail'
+import PageList from '@/views/page/index.vue'
+import PageDetail from '@/views/page/detail.vue'
 
-import ShortcutList from '@/components/shortcut/index'
-import ShortcutDetail from '@/components/shortcut/detail'
+import ArticleList from '@/views/article/index.vue'
+import ArticleDetail from '@/views/article/detail.vue'
 
-import FlashList from '@/components/flash/index'
-import FlashDetail from '@/components/flash/detail'
+import ShortcutList from '@/views/shortcut/index.vue'
+import ShortcutDetail from '@/views/shortcut/detail.vue'
 
-Vue.use(Router);
+import FlashList from '@/views/flash/index.vue'
+import FlashDetail from '@/views/flash/detail.vue'
 
-export default new Router({
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {path: '/', component: Login},
-    {path:'/login',component:Login,},
-    {path:'/admin', meta:{requireAuth:true}, component:Admin,
-      children:[
-        {path:'/admin', meta:{requireAuth:true}, component:AdminList,},
-        {path:'/admin/create', meta:{requireAuth:true}, component:AdminDetail,},
-        {path:'/admin/another/admin/:id', meta:{requireAuth:true}, component:AdminDetail,},
+    { path: '/', component: Login },
+    { path: '/login', name: 'login', component: Login },
+    {
+      path: '/admin',
+      meta: { requireAuth: true },
+      component: Admin,
+      children: [
+        {path: '/admin', name: 'admin', meta: { requireAuth: true }, component: AdminList,},
+        {path: '/admin/create', name: 'adminCreate', meta: { requireAuth: true }, component: AdminDetail,},
+        {path: '/admin/another/admin/:id', name: 'adminDetail', meta: { requireAuth: true }, component: AdminDetail,},
 
-        {path:'/file', meta:{requireAuth:true}, component:FileList,},
+        {path: '/file', name: 'file', meta: { requireAuth: true }, component: FileList,},
 
-        {path:'/case', meta:{requireAuth:true}, component:CaseList,},
-        {path:'/case/create', meta:{requireAuth:true}, component:CaseDetail,},
-        {path:'/case/:id', meta:{requireAuth:true}, component:CaseDetail,},
+        {path:'/case', name:'case', meta:{requireAuth:true}, component:CaseList,},
+        {path:'/case/create', name:'caseCreate', meta:{requireAuth:true}, component:CaseDetail,},
+        {path:'/case/:id', name:'caseDetail', meta:{requireAuth:true}, component:CaseDetail,},
 
-        {path:'/category', meta:{requireAuth:true}, component:CategoryList,},
-        {path:'/category/create', meta:{requireAuth:true}, component:CategoryDetail,},
-        {path:'/category/:id', meta:{requireAuth:true}, component:CategoryDetail,},
+        {path:'/category', name:'category', meta:{requireAuth:true}, component:CategoryList,},
+        {path:'/category/create', name:'categoryCreate', meta:{requireAuth:true}, component:CategoryDetail,},
+        {path:'/category/:id', name:'categoryDetail', meta:{requireAuth:true}, component:CategoryDetail,},
 
-        {path:'/page', meta:{requireAuth:true}, component:PageList,},
-        {path:'/page/create', meta:{requireAuth:true}, component:PageDetail,},
-        {path:'/page/:id', meta:{requireAuth:true}, component:PageDetail,},
+        {path:'/page', name:'page', meta:{requireAuth:true}, component:PageList,},
+        {path:'/page/create', name:'pageCreate', meta:{requireAuth:true}, component:PageDetail,},
+        {path:'/page/:id', name:'pageDetail', meta:{requireAuth:true}, component:PageDetail,},
 
-        {path:'/article/', meta:{requireAuth:true}, component:ArticleList,},
-        {path:'/article/create', meta:{requireAuth:true}, component:ArticleDetail,},
-        {path:'/article/:id', meta:{requireAuth:true}, component:ArticleDetail,},
+        {path: '/article/', name: 'article', meta: { requireAuth: true }, component: ArticleList,},
+        {path: '/article/create', name: 'articleCreate', meta: { requireAuth: true }, component: ArticleDetail,},
+        {path: '/article/:id', name: 'articleDetail', meta: { requireAuth: true }, component: ArticleDetail,},
 
-        {path:'/shortcut', meta:{requireAuth:true}, component:ShortcutList,},
-        {path:'/shortcut/create', meta:{requireAuth:true}, component:ShortcutDetail,},
-        {path:'/shortcut/:id', meta:{requireAuth:true}, component:ShortcutDetail,},
+        {path:'/shortcut', name:'shortcut', meta:{requireAuth:true}, component:ShortcutList,},
+        {path:'/shortcut/create', name:'shortcutCreate', meta:{requireAuth:true}, component:ShortcutDetail,},
+        {path:'/shortcut/:id', name:'shortcutDetail', meta:{requireAuth:true}, component:ShortcutDetail,},
 
-        {path:'/flash/', meta:{requireAuth:true}, component:FlashList,},
-        {path:'/flash/create', meta:{requireAuth:true}, component:FlashDetail,},
-        {path:'/flash/:id', meta:{requireAuth:true}, component:FlashDetail,},
-      ]
+        {path:'/flash/', name:'flash', meta:{requireAuth:true}, component:FlashList,},
+        {path:'/flash/create', name:'flashCreate', meta:{requireAuth:true}, component:FlashDetail,},
+        {path:'/flash/:id', name:'flashDetail', meta:{requireAuth:true}, component:FlashDetail,},
+      ],
     },
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  const {userInfo} = useUserInfoStore()
+  if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+    if (userInfo?.token) {  // 通过vuex state获取当前的token是否存在
+      next();
+    }else {
+      ElMessage({
+        showClose: true,
+        message: "无权限，请重新登录！",
+        type: "error",
+      });
+      next({
+        name: 'login',
+        query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      })
+    }
+  }else {
+    next();
+  }
+})
+export default router

@@ -1,12 +1,12 @@
 # 企业展示型小程序 - 管理员端
 
-Vue + Element UI
+Vue3 + Element Plus
 
-如果需要`服务端`或`小程序端`，请移步：https://github.com/chudaozhe/gin-vue-weapp
+如果需要`服务端`或`小程序端`，请移步： https://github.com/chudaozhe/gin-vue-weapp
 
 ## 在线体验
 ```
-https://ent.cuiwei.net/console/
+https://ent.uqiantu.com/console/
 用户名：admin
 密码：123456
 ```
@@ -23,27 +23,32 @@ src/config.js
 ![22.jpg](https://ent.cuiwei.net/screenshots/admin/22.jpg)
 ![33.jpg](https://ent.cuiwei.net/screenshots/admin/33.jpg)
 
-# 运行
+## 运行
 
-## Project setup
-```
+This template should help get you started developing with Vue 3 in Vite.
+
+## Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
 ```
 
-### Compiles and minifies for production
-```
+### Compile and Minify for Production
+
+```sh
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

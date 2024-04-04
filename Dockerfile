@@ -1,4 +1,4 @@
-FROM node:14.16.1 as builder
+FROM node:18.19.1 as builder
 WORKDIR /app
 COPY . .
 RUN yarn install && yarn build
