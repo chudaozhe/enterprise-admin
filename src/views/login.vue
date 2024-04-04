@@ -54,20 +54,20 @@ onMounted(()=>{
   handleAdminDetail();
 })
 const handleLogin = async (username, password) => {
-  let re = await doLogin(username, password)
-  if (undefined !== re && undefined === re.err) {
+  let res = await doLogin(username, password)
+  if (res?.id) {
     let data = {}
-    data.id = re.id
-    data.nickname = re.nickname
-    data.avatar = re.avatar
-    data.token = re.token
+    data.id = res.id
+    data.nickname = res.nickname
+    data.avatar = res.avatar
+    data.token = res.token
     useUserInfoStore().setUserInfo(data)
     instance.appContext.config.globalProperties.$message({ type: 'success', message: '您已登录', duration: 1000 })
     let redirect = route.query.redirect
     let url = undefined !== redirect ? redirect : '/admin'
     await router.push(url)
   } else {
-    instance.appContext.config.globalProperties.$message({ type: 'error', message: re.msg, duration: 1000 })
+    instance.appContext.config.globalProperties.$message({ type: 'error', message: res.msg, duration: 1000 })
   }
 }
 /**

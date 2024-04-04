@@ -16,7 +16,13 @@ Vue3 + Element Plus
 ## 在线体验
 [个人服务器](https://ent.uqiantu.com/console/)
 
-流行的静态网站托管平台
+体验账号
+```
+用户名：admin
+密码：123456
+```
+
+### 流行的静态网站托管平台
 
 - [GitHub Pages](https://pages.github.com/) -> https://chudaozhe.github.io/enterprise-admin
 - [Vercel](https://www.vercel.com/) -> https://enterprise-admin-five.vercel.app
@@ -37,11 +43,16 @@ Vue3 + Element Plus
 6. 部署，`npm run deploy`
 7. 把`3`和`4`改回去
 
-体验账号
+### Render
+默认也不支持 history 路由模式，但可以在平台上配置。在站点的 `Redirects/Rewrites` 设置中添加以下改写规则：
 ```
-用户名：admin
-密码：123456
+Source: /*
+Destination: /index.html
+Status: Rewrite
 ```
+
+### 更多平台
+https://vitejs.dev/guide/static-deploy.html
 
 ## 配置
 修改接口前缀
@@ -51,9 +62,9 @@ src/config.js
 
 ## 截图
 
-![11.jpg](https://ent.cuiwei.net/screenshots/admin/11.jpg)
-![22.jpg](https://ent.cuiwei.net/screenshots/admin/22.jpg)
-![33.jpg](https://ent.cuiwei.net/screenshots/admin/33.jpg)
+![11.jpg](https://ent.uqiantu.com/data/screenshots/admin/11.jpg)
+![22.jpg](https://ent.uqiantu.com/data/screenshots/admin/22.jpg)
+![33.jpg](https://ent.uqiantu.com/data/screenshots/admin/33.jpg)
 
 ## 运行
 
