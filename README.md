@@ -25,6 +25,18 @@ Vue3 + Element Plus
 - [Railway](https://railway.app/)
 - [Heroku](https://www.heroku.com/)
 
+
+### GitHub Pages
+首先不推荐这种方式，因为它不支持 history 路由模式，如果一定要使用请改为hash路由。部署步骤如下：
+
+1. 安装`gh-pages`, `npm install gh-pages --save-dev`
+2. 修改`package.json`中的`scripts`下面增加`"deploy": "gh-pages -d web"`
+3. 临时修改项目的路由模式为`hash`，修改`src/router/index.js`文件中的`history`为`createWebHashHistory()`
+4. 临时修改`vite.config.js`的`defineConfig`的`base`为相对路径`./`或者`'/enterprise-admin/'`
+5. 打包，`npm run build`
+6. 部署，`npm run deploy`
+7. 把`3`和`4`改回去
+
 体验账号
 ```
 用户名：admin
