@@ -24,7 +24,8 @@
 import { doLogin } from '../services/admin/user.js'
 import { useUserInfoStore } from "@/stores/store.js";
 import {useRoute, useRouter} from "vue-router";
-import {getCurrentInstance, reactive, ref} from "vue";
+import {getCurrentInstance, onMounted, reactive, ref} from "vue";
+import { get } from '@/services/admin/admin.js'
 const router = useRouter()
 const route = useRoute()
 const instance = getCurrentInstance()
@@ -49,6 +50,9 @@ const rules = reactive({
     password: [{ validator: validatePassword, trigger: 'blur' }],
     username: [{ validator: checkUsername, trigger: 'blur' }],
   });
+onMounted(()=>{
+  handleAdminDetail();
+})
 const handleLogin = async (username, password) => {
   let re = await doLogin(username, password)
   if (undefined !== re && undefined === re.err) {
@@ -64,6 +68,16 @@ const handleLogin = async (username, password) => {
     await router.push(url)
   } else {
     instance.appContext.config.globalProperties.$message({ type: 'error', message: re.msg, duration: 1000 })
+  }
+}
+/**
+ * 验证是否已登录
+ * @returns {Promise<void>}
+ */
+const handleAdminDetail = async () => {
+  let res = await get(1);
+  if (res?.data){
+    await router.push({name: 'admin'});
   }
 }
 const submitForm = async (formEl) => {

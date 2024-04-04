@@ -2,11 +2,31 @@
 
 Vue3 + Element Plus
 
+- [Vue3](https://github.com/vuejs/core)
+- [Element Plus](https://github.com/element-plus/element-plus)
+- [Vite](https://github.com/vitejs/vite)
+- [Pinia](https://github.com/vuejs/pinia)
+- [mavonEditor](https://github.com/hinesboy/mavonEditor)
+- [axios](https://github.com/axios/axios)
+- [vue-router](https://github.com/vuejs/router)
+- [sass](https://github.com/sass/sass)
+
 如果需要`服务端`或`小程序端`，请移步： https://github.com/chudaozhe/gin-vue-weapp
 
 ## 在线体验
+[个人服务器](https://ent.uqiantu.com/console/)
+
+流行的静态网站托管平台
+
+- [GitHub Pages](https://pages.github.com/) -> https://chudaozhe.github.io/enterprise-admin
+- [Vercel](https://www.vercel.com/) -> https://enterprise-admin-five.vercel.app
+- [Netlify](https://www.netlify.com/)
+- [Render](https://www.render.com/) -> https://enterprise-admin.onrender.com/
+- [Railway](https://railway.app/)
+- [Heroku](https://www.heroku.com/)
+
+体验账号
 ```
-https://ent.uqiantu.com/console/
 用户名：admin
 密码：123456
 ```

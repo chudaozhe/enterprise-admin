@@ -1,0 +1,10 @@
+# Exported from Render on 2024-04-04T02:54:11Z
+services:
+  - type: web
+    name: enterprise-admin
+    runtime: static
+    repo: https://github.com/chudaozhe/enterprise-admin
+    branch: master
+    buildCommand: npm run build
+    staticPublishPath: web
+version: "1"
