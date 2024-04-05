@@ -1,5 +1,5 @@
 <template>
-	<div>
+  <div>
     <el-card>
       <el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="100px">
         <el-form-item style="margin-bottom: 20px">
@@ -26,105 +26,115 @@
         </el-form-item>
       </el-form>
     </el-card>
-	</div>
+  </div>
 </template>
-	<script setup>
-		import { get,add,edit } from '@/services/admin/category.js'
-    import {useRoute, useRouter} from "vue-router";
-    import {getCurrentInstance, onMounted, ref} from "vue";
-    const route = useRoute();
-    const router = useRouter();
-    const instance = getCurrentInstance();
+<script setup>
+import { get, add, edit } from '@/services/admin/category.js'
+import { useRoute, useRouter } from 'vue-router'
+import { getCurrentInstance, onMounted, ref } from 'vue'
+const route = useRoute()
+const router = useRouter()
+const instance = getCurrentInstance()
 
-    const ruleFormRef = ref();
-    const id = ref(route.params.id);
-    const ruleForm = ref({
-      type: '2',
-      name: '',
-      memo: '',
-      sort:0
-    });
-    const rules = ref({
-      name: [
-        { required: true, message: '请输入名称', trigger: 'blur' }
-      ]
-    });
-    onMounted(()=>{
-      handleDetail();
+const ruleFormRef = ref()
+const id = ref(route.params.id)
+const ruleForm = ref({
+  type: '2',
+  name: '',
+  memo: '',
+  sort: 0
+})
+const rules = ref({
+  name: [{ required: true, message: '请输入名称', trigger: 'blur' }]
+})
+onMounted(() => {
+  handleDetail()
+})
+const handleDetail = async () => {
+  if (id.value > 0) {
+    let result = await get(id.value)
+    if (result.err === 0) {
+      ruleForm.value = result.data
+      // ruleForm.value=field.type.toString();
+    } else {
+      instance.appContext.config.globalProperties.$message({
+        type: 'error',
+        message: result.msg,
+        duration: 1000
+      })
+    }
+  }
+}
+const handleCreate = async (params) => {
+  let result = await add(params)
+  if (result.err === 0) {
+    instance.appContext.config.globalProperties.$message({
+      type: 'success',
+      message: '添加成功',
+      duration: 1000
     })
-    const handleDetail = async () => {
-      if(id.value>0){
-        let result= await get(id.value);
-        if(result.err===0){
-          ruleForm.value=result.data;
-          // ruleForm.value=field.type.toString();
-        }else{
-          instance.appContext.config.globalProperties.$message({type:'error', message:result.msg, duration:1000});
-        }
-      }
-    }
-    const handleCreate = async (params) => {
-      let result= await add(params);
-      if(result.err===0){
-        instance.appContext.config.globalProperties.$message({
-          type:'success',
-          message:'添加成功',
-          duration:1000
-        });
-        router.push({name: 'category'});
-      }else{
-        instance.appContext.config.globalProperties.$message({type:'error', message:result.msg, duration:1000});
-      }
-    }
-    const handleUpdate = async (id, params) => {
-      let result= await edit(id, params);
-      if(result.err===0){
-        instance.appContext.config.globalProperties.$message({
-          type:'success',
-          message:'修改成功',
-          duration:1000
-        });
-        router.push({name: 'category'});
-      }else{
-        instance.appContext.config.globalProperties.$message({type:'error', message:result.msg, duration:1000});
-      }
-    }
-    const submitForm = async (formEl) => {
-      if (!formEl) return
-      await formEl.validate((valid, fields) => {
-        if (valid) {
-          let data={};
-          data.type=ruleForm.value.type;
-          data.name=ruleForm.value.name;
-          data.memo=ruleForm.value.memo;
-          data.sort=ruleForm.value.sort;
+    router.push({ name: 'category' })
+  } else {
+    instance.appContext.config.globalProperties.$message({
+      type: 'error',
+      message: result.msg,
+      duration: 1000
+    })
+  }
+}
+const handleUpdate = async (id, params) => {
+  let result = await edit(id, params)
+  if (result.err === 0) {
+    instance.appContext.config.globalProperties.$message({
+      type: 'success',
+      message: '修改成功',
+      duration: 1000
+    })
+    router.push({ name: 'category' })
+  } else {
+    instance.appContext.config.globalProperties.$message({
+      type: 'error',
+      message: result.msg,
+      duration: 1000
+    })
+  }
+}
+const submitForm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      let data = {}
+      data.type = ruleForm.value.type
+      data.name = ruleForm.value.name
+      data.memo = ruleForm.value.memo
+      data.sort = ruleForm.value.sort
 
-          if(id.value>0){
-            //update
-            handleUpdate(id.value, data)
-          }else {
-            //add
-            handleCreate(data)
-          }
-        } else {
-          return false;
-        }
-      });
+      if (id.value > 0) {
+        //update
+        handleUpdate(id.value, data)
+      } else {
+        //add
+        handleCreate(data)
+      }
+    } else {
+      return false
     }
-    const resetForm = (formEl) => {
-      if (!formEl) return
-      formEl.resetFields()
-    }
-	// 	export default {
-	// 	data() {
-	// 		return {
-  //
-	// 		};
-	// 	},
-	// 	mounted: function () {
-	// 	},
-	// 	methods: {
-  //
-	// 	}
-	// }
+  })
+}
+const resetForm = (formEl) => {
+  if (!formEl) return
+  formEl.resetFields()
+}
+// 	export default {
+// 	data() {
+// 		return {
+//
+// 		};
+// 	},
+// 	mounted: function () {
+// 	},
+// 	methods: {
+//
+// 	}
+// }
 </script>

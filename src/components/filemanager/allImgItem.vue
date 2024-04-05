@@ -20,12 +20,12 @@
 
 <script setup>
 import config from '@/config.js'
-import {getCurrentInstance, onMounted, ref} from "vue";
+import { getCurrentInstance, onMounted, ref } from 'vue'
 const instance = getCurrentInstance()
-const host = ref(config.baseURL);
-const imgHeight = ref(0);
-const imgWidth = ref(0);
-onMounted(()=>{
+const host = ref(config.baseURL)
+const imgHeight = ref(0)
+const imgWidth = ref(0)
+onMounted(() => {
   let img = new Image()
   img.src = host.value + props.file.url
   img.onload = function () {
@@ -33,30 +33,31 @@ onMounted(()=>{
     imgWidth.value = img.width
   }
 })
-const props = defineProps(['file']);
+const props = defineProps(['file'])
 
 const emits = defineEmits(['selected'])
 
 const deleteItem = () => {
-  instance.appContext.config.globalProperties.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-  })
+  instance.appContext.config.globalProperties
+    .$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
     .then(() => {
       // emit(that, 'delete')
       instance.appContext.config.globalProperties.$message({
         type: 'success',
         message: '删除成功!'
-      });
+      })
     })
     .catch(() => {})
 }
-const ensure =() => {
+const ensure = () => {
   console.log('ensure')
 }
 const selected = () => {
-  console.log('send select item');
+  console.log('send select item')
   emits('selected', props.file)
 }
 // export default {

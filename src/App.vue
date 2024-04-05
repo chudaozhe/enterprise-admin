@@ -11,16 +11,16 @@ import { RouterView } from 'vue-router'
 </script>
 
 <style lang="scss">
-.card-header{
+.card-header {
   display: flex;
   justify-content: right;
 }
-.card-header2{
+.card-header2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.aside-menu-icon{
+.aside-menu-icon {
   width: 25px;
   height: 25px;
   margin-right: 10px;
@@ -28,7 +28,14 @@ import { RouterView } from 'vue-router'
 body {
   margin: 0;
   padding: 0;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+  font-family:
+    Helvetica Neue,
+    Helvetica,
+    PingFang SC,
+    Hiragino Sans GB,
+    Microsoft YaHei,
+    SimSun,
+    sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
 }
@@ -47,8 +54,8 @@ body {
   position: relative;
   overflow: hidden;
 }
-.el-upload:hover .panel{
-  left:0
+.el-upload:hover .panel {
+  left: 0;
 }
 .panel {
   position: absolute;

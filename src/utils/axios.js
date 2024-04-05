@@ -2,17 +2,17 @@ import axios from 'axios'
 import qs from 'qs'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { useUserInfoStore } from "@/stores/store";
-import config from '../config';
+import { useUserInfoStore } from '@/stores/store'
+import config from '../config'
 
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = config.baseURL + '/v1'
 axios.interceptors.request.use(
   (config) => {
-    const {userInfo:user} = useUserInfoStore();
+    const { userInfo: user } = useUserInfoStore()
     if (user.token) {
       // config.headers.common['Token'] = user.token
-      config.headers['Token'] = user.token;
+      config.headers['Token'] = user.token
       // console.log(config.headers)
     }
     NProgress.start()
@@ -34,19 +34,14 @@ axios.interceptors.response.use(
 function checkStatus(response) {
   NProgress.done()
   // 如果http状态码正常，则直接返回数据
-  if (
-    response &&
-    (response.status === 200 ||
-      response.status === 304 ||
-      response.status === 400)
-  ) {
+  if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
     return response
     // 如果不需要除了data之外的数据，可以直接 return response.data
   }
   // 异常状态下，把错误信息返回去
   return {
     status: -404,
-    msg: '网络异常',
+    msg: '网络异常'
   }
 }
 
@@ -66,7 +61,7 @@ export default {
       method: 'get',
       url,
       params, // get 请求时带的参数
-      headers: {},
+      headers: {}
     })
       .then(checkStatus)
       .then(checkCode)
@@ -77,8 +72,8 @@ export default {
       url,
       data: qs.stringify(params),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      },
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
     })
       .then(checkStatus)
       .then(checkCode)
@@ -89,8 +84,8 @@ export default {
       url,
       data: qs.stringify(params),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      },
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
     })
       .then(checkStatus)
       .then(checkCode)
@@ -101,10 +96,10 @@ export default {
       url,
       data: qs.stringify(params),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      },
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
     })
       .then(checkStatus)
       .then(checkCode)
-  },
+  }
 }

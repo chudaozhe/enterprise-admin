@@ -8,12 +8,7 @@
     <!--                  @select="select"-->
     <!--                  @ensure="$emit('ensure')" >-->
     <!--    </all-img-item>-->
-    <allImgItem
-      v-for="(item, index) in tableData"
-      :file="item"
-      :key="item.id"
-      @selected="selected"
-    >
+    <allImgItem v-for="(item, index) in tableData" :file="item" :key="item.id" @selected="selected">
     </allImgItem>
   </div>
 </template>
@@ -21,15 +16,13 @@
 <script setup>
 import allImgItem from '../filemanager/allImgItem.vue'
 import { gets } from '@/services/admin/file.js'
-import config from '@/config.js'
-import {getCurrentInstance, onMounted, ref} from "vue";
+import { getCurrentInstance, onMounted, ref } from 'vue'
 const instance = getCurrentInstance()
-const host = ref(config.host);
-const selectedList = ref([]);
-const tableData = ref([]);
+const selectedList = ref([])
+const tableData = ref([])
 const emits = defineEmits(['selected'])
 
-onMounted(()=>{
+onMounted(() => {
   listByFile(0, '', 1, 1000)
 })
 const clearSelected = () => {
@@ -45,7 +38,11 @@ const listByFile = async (cid, keyword, page, max) => {
   if (undefined === result.err) {
     tableData.value = result.list
   } else {
-    instance.appContext.config.globalProperties.$message({ type: 'error', message: result.msg, duration: 1000 })
+    instance.appContext.config.globalProperties.$message({
+      type: 'error',
+      message: result.msg,
+      duration: 1000
+    })
   }
 }
 // export default {

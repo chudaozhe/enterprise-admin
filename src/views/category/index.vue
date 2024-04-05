@@ -1,5 +1,5 @@
 <template>
-	<div>
+  <div>
     <el-card>
       <template #header>
         <div class="card-header2">
@@ -10,25 +10,15 @@
             <el-radio size="small" :value="4" border>单页</el-radio>
             <el-radio size="small" :value="5" border>技术支持</el-radio>
           </el-radio-group>
-          <el-button @click="handleCreate()" size="small" icon="plus" type="primary">添加</el-button>
+          <el-button @click="handleCreate()" size="small" icon="plus" type="primary"
+            >添加</el-button
+          >
         </div>
       </template>
       <el-table :data="tableData">
-        <el-table-column
-          prop="id"
-          label="ID"
-          width="50">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="名称"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="memo"
-          label="描述"
-          width="100">
-        </el-table-column>
+        <el-table-column prop="id" label="ID" width="50"> </el-table-column>
+        <el-table-column prop="name" label="名称" width="180"> </el-table-column>
+        <el-table-column prop="memo" label="描述" width="100"> </el-table-column>
 
         <el-table-column label="操作">
           <template #default="scope">
@@ -40,7 +30,8 @@
               cancel-button-text="取消"
               :icon="InfoFilled"
               icon-color="#626AEF"
-              @confirm="handleDelete(scope.row.id)">
+              @confirm="handleDelete(scope.row.id)"
+            >
               <template #reference>
                 <el-link type="primary">删除</el-link>
               </template>
@@ -49,71 +40,79 @@
         </el-table-column>
       </el-table>
     </el-card>
-	</div>
+  </div>
 </template>
 
 <script setup>
-	import { gets,del } from '@/services/admin/category.js'
-  import {onMounted, ref} from "vue";
-  import {useRouter} from "vue-router";
-  import {InfoFilled} from "@element-plus/icons-vue";
+import { gets, del } from '@/services/admin/category.js'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { InfoFilled } from '@element-plus/icons-vue'
 
-  const router = useRouter();
+const router = useRouter()
 
-  const type = ref(2);
-  const tableData = ref([]);
-  onMounted(()=>{
-    handleList();
-  })
-  const handleList = async () => {
-    tableData.value= await gets(type.value);
+const type = ref(2)
+const tableData = ref([])
+onMounted(() => {
+  handleList()
+})
+const handleList = async () => {
+  tableData.value = await gets(type.value)
+}
+const handleCancel = () => {
+  document.querySelector('#app').click()
+}
+const handleUpdate = (index) => {
+  router.push({ name: 'categoryDetail', params: { id: index } })
+  console.log(index)
+}
+const handleDelete = async (id) => {
+  let result = await del(id)
+  if (result.err === 0) {
+    instance.appContext.config.globalProperties.$message({
+      type: 'success',
+      message: '删除成功',
+      duration: 1000
+    })
+    //重新请求数据
+    await handleList()
+  } else {
+    instance.appContext.config.globalProperties.$message({
+      type: 'error',
+      message: result.msg,
+      duration: 1000
+    })
   }
-  const handleCancel = () => {
-    document.querySelector("#app").click();
-  }
-  const handleUpdate = (index) => {
-    router.push({name: 'categoryDetail', params: {id:index}});
-    console.log(index);
-  }
-  const handleDelete = async (id) => {
-    let result= await del(id);
-    if(result.err===0){
-      instance.appContext.config.globalProperties.$message({type:'success', message:'删除成功', duration:1000});
-      //重新请求数据
-      await handleList();
-    }else{
-      instance.appContext.config.globalProperties.$message({type:'error', message:result.msg, duration:1000});
-    }
-    document.querySelector("#app").click();
-  }
-  const handleCreate = () => {
-    router.push({name: 'categoryCreate'});
-  }
-  const handleSizeChange = (val) => {
-    console.log(`每页 ${val} 条`);
-  }
-  const handleCurrentChange = (page) => {
-    handleList();
-    console.log(`当前页: ${page}`);
-  }
-  const handleChange = (type1) => {
-    type.value = type1;
-    handleList(type);
-  }
-  const onSubmit = () => {
-    handleList();
-    console.log('submit!');
-  }
-	// export default {
-	// 	data() {
-	// 		return {
-	//
-	// 		}
-	// 	},
-	// 	mounted: function () {
-	// 	},
-	// 	methods: {
-  //
-	// 	},
-	// }
+  document.querySelector('#app').click()
+}
+const handleCreate = () => {
+  router.push({ name: 'categoryCreate' })
+}
+const handleSizeChange = (val) => {
+  console.log(`每页 ${val} 条`)
+}
+const handleCurrentChange = (page) => {
+  handleList()
+  console.log(`当前页: ${page}`)
+}
+const handleChange = (type1) => {
+  type.value = type1
+  handleList(type)
+}
+const onSubmit = () => {
+  handleList()
+  console.log('submit!')
+}
+// export default {
+// 	data() {
+// 		return {
+//
+// 		}
+// 	},
+// 	mounted: function () {
+// 	},
+// 	methods: {
+//
+// 	},
+// }
 </script>
