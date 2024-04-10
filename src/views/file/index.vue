@@ -14,13 +14,15 @@
       </div>
     </template>
     <div class="all-img">
-      <allImgItem
+      <FileItem
         v-for="(item, index) in tableData"
-        :url="host + item.url"
+        :file="item"
+        :host="host"
         :key="item.id"
+        :showDelete="true"
         @delete="handleDelete(item.id)"
       >
-      </allImgItem>
+      </FileItem>
     </div>
     <template #footer>
       <el-pagination
@@ -37,7 +39,7 @@
 </template>
 
 <script setup>
-import allImgItem from './allImgItem.vue'
+import FileItem from '../../components/filemanager/file-item.vue'
 import { add, gets, del } from '@/services/admin/file.js'
 import { getCurrentInstance, onMounted, ref } from 'vue'
 import config from '@/config.js'

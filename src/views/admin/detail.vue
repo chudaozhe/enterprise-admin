@@ -15,17 +15,19 @@
         <el-form-item label="手机号" prop="mobile">
           <el-input v-model="ruleForm.mobile"></el-input>
         </el-form-item>
+        <!--        选择头像-->
+        <FileManager ref="fileManagerRef" @selected="selectedImage" />
         <el-form-item label="头像" prop="avatar">
-          <el-upload
-            class="avatar-uploader"
-            :action="icon_url"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <el-icon class="avatar-uploader-icon" v-else><Plus /></el-icon>
-          </el-upload>
+          <div>
+            <GridView
+              :images="ruleForm.avatar ? [ruleForm.avatar] : []"
+              :image_prefix="host"
+              :show_plus="image_show_plus"
+              @showFileManager="showFileManager"
+              @removeImage="removeImage"
+            />
+            <div style="color: gray">推荐尺寸：440*248px</div>
+          </div>
         </el-form-item>
 
         <el-form-item>
@@ -42,16 +44,19 @@ import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import config from '@/config.js'
 import { useUserInfoStore } from '@/stores/store.js'
+import FileManager from '../../components/filemanager/file-manager.vue'
+import GridView from '@/components/grid-view.vue'
 
 const route = useRoute()
 const router = useRouter()
 const instance = getCurrentInstance()
 
+const host = ref(config.baseURL)
 const ruleFormRef = ref()
-const icon_url = ref(config.baseURL + '/admin/editor/upload')
+const fileManagerRef = ref()
 const id = ref(route.params.id)
-const imageUrl = ref('')
-const ruleForm = reactive({
+const image_show_plus = ref(false)
+const ruleForm = ref({
   username: '',
   nickname: '',
   avatar: '',
@@ -72,12 +77,7 @@ const handleDetail = async () => {
   if (id.value > 0) {
     let result = await get(id.value)
     if (result.err === 0) {
-      let field = result.data
-      //ruleForm.username=field.username;
-      ruleForm.nickname = field.nickname
-      ruleForm.mobile = field.mobile
-      ruleForm.email = field.email
-      imageUrl.value = '' !== field.avatar ? config.baseURL + field.avatar : ''
+      ruleForm.value = result.data
     } else {
       instance.appContext.config.globalProperties.$message({
         type: 'error',
@@ -132,11 +132,11 @@ const submitForm = async (formEl) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       let data = {}
-      if (ruleForm.username && id.value === undefined) data.username = ruleForm.username
-      if (ruleForm.nickname) data.nickname = ruleForm.nickname
-      if (ruleForm.mobile) data.mobile = ruleForm.mobile
-      if (ruleForm.email) data.email = ruleForm.email
-      if (ruleForm.avatar) data.avatar = ruleForm.avatar
+      if (ruleForm.value.username && id.value === undefined) data.username = ruleForm.value.username
+      if (ruleForm.value.nickname) data.nickname = ruleForm.value.nickname
+      if (ruleForm.value.mobile) data.mobile = ruleForm.value.mobile
+      if (ruleForm.value.email) data.email = ruleForm.value.email
+      if (ruleForm.value.avatar) data.avatar = ruleForm.value.avatar
       console.log(JSON.stringify(data))
       if (id.value > 0) {
         //update
@@ -154,26 +154,20 @@ const submitForm = async (formEl) => {
 const resetForm = (formEl) => {
   if (!formEl) return
   formEl.resetFields()
-  imageUrl.value = ''
 }
-const handleAvatarSuccess = (res, file) => {
-  // console.log('file:')
-  // console.log(file.response.url)
-  ruleForm.avatar = file.response.url
-  imageUrl.value = URL.createObjectURL(file.raw)
+//调出文件管理组件
+const showFileManager = () => {
+  fileManagerRef.value.show()
 }
-const beforeAvatarUpload = (file) => {
-  const isJPG = file.type === 'image/jpeg'
-  const isPNG = file.type === 'image/png'
-  const isGIF = file.type === 'image/gif'
-  const isLt2M = file.size / 1024 / 1024 < 2
-  if (!isJPG && !isPNG && !isGIF) {
-    instance.appContext.config.globalProperties.$message.error('上传图片只能是 JPG/PNG/GIF 格式!')
-  }
-  if (!isLt2M) {
-    instance.appContext.config.globalProperties.$message.error('上传头像图片大小不能超过 2MB!')
-  }
-  return (isJPG || isPNG || isGIF) && isLt2M
+const selectedImage = (file) => {
+  console.log('selected-选择的图片是：' + file.url)
+  ruleForm.value.avatar = file.url
+  image_show_plus.value = false
+}
+const removeImage = (index) => {
+  console.log(index)
+  ruleForm.value.avatar = ''
+  image_show_plus.value = true
 }
 // export default {
 //   data() {

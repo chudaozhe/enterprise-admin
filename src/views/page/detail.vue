@@ -21,22 +21,13 @@
 
         <el-form-item label="头图" prop="image">
           <div>
-            <div
-              v-if="ruleForm.image"
-              class="el-upload el-upload--picture-card"
-              style="width: 100px; height: 100px"
-              @click="showFileManager(1)"
-            >
-              <img style="width: 100%" :src="host + ruleForm.image" alt="" />
-            </div>
-            <div
-              v-else
-              class="el-upload el-upload--picture-card"
-              style="width: 100px; height: 100px; line-height: 110px"
-              @click="showFileManager(1)"
-            >
-              <el-icon><Plus /></el-icon>
-            </div>
+            <GridView
+              :images="ruleForm.image ? [ruleForm.image] : []"
+              :image_prefix="host"
+              :show_plus="image_show_plus"
+              @showFileManager="showFileManager"
+              @removeImage="removeImage"
+            />
             <div style="color: gray">推荐尺寸：750*375px</div>
           </div>
         </el-form-item>
@@ -60,12 +51,13 @@
 </template>
 <script setup>
 import { get, add, edit } from '@/services/admin/page.js'
-import fileManager from '../../components/filemanager/fileManager.vue'
+import FileManager from '../../components/filemanager/file-manager.vue'
 import { gets } from '@/services/admin/category.js'
 import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import config from '@/config.js'
 import { add as addFile } from '@/services/admin/file.js'
+import GridView from '@/components/grid-view.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -77,6 +69,7 @@ const id = ref(route.params.id)
 const mdRef = ref()
 const ruleFormRef = ref()
 const fileManagerRef = ref()
+const image_show_plus = ref(false)
 const ruleForm = ref({
   category_id: 0,
   title: '',
@@ -232,12 +225,18 @@ const handleChange = (value) => {
   console.log(value[value.length - 1])
 }
 //调出文件管理组件
-const showFileManager = (image_type1) => {
+const showFileManager = () => {
   fileManagerRef.value.show()
 }
 const selectedImage = (file) => {
   console.log('selected-选择的图片是：' + file.url)
   ruleForm.value.image = file.url
+  image_show_plus.value = false
+}
+const removeImage = (index) => {
+  console.log(index)
+  ruleForm.value.image = ''
+  image_show_plus.value = true
 }
 // export default {
 // 	data() {

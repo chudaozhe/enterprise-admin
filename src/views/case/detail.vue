@@ -30,57 +30,32 @@
         </el-form-item>
 
         <!--          缩略图-->
-        <file-manager ref="fileManagerRef" @selected="selectedImage" />
+        <FileManager ref="fileManagerRef" @selected="selectedImage" />
         <!--          图集-->
-        <file-manager ref="fileManager2Ref" @selected="selectedImages" />
+        <FileManager ref="fileManager2Ref" @selected="selectedImages" />
 
         <el-form-item label="缩略图" prop="image">
           <div>
-            <div
-              v-if="ruleForm.image"
-              class="el-upload el-upload--picture-card"
-              style="width: 100px; height: 100px"
-              @click="showFileManager(1)"
-            >
-              <img style="width: 100%" :src="host + ruleForm.image" alt="" />
-            </div>
-            <div
-              v-else
-              class="el-upload el-upload--picture-card"
-              style="width: 100px; height: 100px; line-height: 110px"
-              @click="showFileManager(1)"
-            >
-              <el-icon><Plus /></el-icon>
-            </div>
+            <GridView
+              :images="ruleForm.image ? [ruleForm.image] : []"
+              :image_prefix="host"
+              :show_plus="image_show_plus"
+              @showFileManager="showFileManager(1)"
+              @removeImage="removeImage"
+            />
             <div style="color: gray">推荐尺寸：440*248px</div>
           </div>
         </el-form-item>
 
         <el-form-item label="图集" prop="images">
           <div>
-            <div style="float: left" v-if="images.length > 0">
-              <div
-                class="el-upload el-upload--picture-card"
-                v-for="(item, index) in images"
-                :key="item"
-                style="float: left; margin-right: 10px; width: 100px; height: 100px"
-              >
-                <img width="100%" :src="host + item" alt="" />
-                <div class="panel" @click.stop="deleteItem(index)">
-                  <i
-                    class="vue-picture-manager-icon icon-ai-delete"
-                    style="font-size: 16px; color: #fff"
-                  ></i>
-                </div>
-              </div>
-            </div>
-            <div
-              class="el-upload el-upload--picture-card"
-              style="width: 100px; height: 100px; line-height: 110px"
-              @click="showFileManager(2)"
-            >
-              <el-icon><Plus /></el-icon>
-            </div>
+            <GridView
+              :images="images"
+              :image_prefix="host"
+              :show_plus="images_show_plus"
+              @showFileManager="showFileManager(2)"
+              @removeImage="removeImage2"
+            />
             <div style="color: gray">推荐尺寸：750*375px</div>
           </div>
         </el-form-item>
@@ -109,18 +84,18 @@
 <script setup>
 import { get, add, edit } from '@/services/admin/case.js'
 import { gets } from '@/services/admin/category.js'
-import fileManager from '../../components/filemanager/fileManager.vue'
+import FileManager from '../../components/filemanager/file-manager.vue'
 import config from '@/config.js'
 import { useRoute, useRouter } from 'vue-router'
 import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 import { add as addFile } from '@/services/admin/file.js'
+import GridView from '@/components/grid-view.vue'
 
 const route = useRoute()
 const router = useRouter()
 const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
-const image = ref('')
 const images = ref([])
 const options = ref([])
 const id = ref(route.params.id)
@@ -128,6 +103,10 @@ const ruleFormRef = ref()
 const fileManagerRef = ref()
 const fileManager2Ref = ref()
 const mdRef = ref()
+const image_show_plus = ref(false)
+const images_show_plus = ref(false)
+const images_count = ref(8) // 图集最多上传8张
+// const image_count = ref(1); //缩略图只能上传1张
 const ruleForm = ref({
   category_ids: [],
   //		category_ids: [1, 11, 113],
@@ -145,13 +124,15 @@ const rules = reactive({
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
   content: [{ required: true, message: '请填写内容', trigger: 'blur' }]
 })
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
 const image_type = ref(1) //1缩略图 2图集
 
 onMounted(() => {
   handleCategoryList()
   handleDetail()
+  if (id.value === undefined) {
+    image_show_plus.value = true
+    images_show_plus.value = true
+  }
 })
 const $imgAdd = (pos, file) => {
   // 将图片上传到服务器(formdata方式
@@ -207,10 +188,6 @@ const $imgDel = (pos) => {
   console.log(pos) //["//blog.cw.net/data/upload/2021-05-11/162072210359836.jpg", file]
   //关于删除，仅仅是当前添加的可以删除；如果是从数据库读出来的，就没有删除按钮了
 }
-const deleteItem = (index) => {
-  images.value.splice(index, 1)
-  console.log(index)
-}
 const handleDetail = async () => {
   if (id.value > 0) {
     let result = await get(id.value)
@@ -219,8 +196,11 @@ const handleDetail = async () => {
       ruleForm.value = field
       ruleForm.value.category_ids = [parseInt(field.category_id)]
 
-      if ('' !== field.image) image.value = field.image
-      if ('' !== field.images) images.value = field.images.split(',')
+      if ('' !== ruleForm.value.images) {
+        images.value = result.data.images.split(',').filter((item) => item !== '')
+      }
+      image_show_plus.value = ruleForm.value.image.length === 0
+      images_show_plus.value = images.value.length < images_count.value
     } else {
       instance.appContext.config.globalProperties.$message({
         type: 'error',
@@ -306,7 +286,6 @@ const submitForm = async (formEl) => {
 const resetForm = (formEl) => {
   if (!formEl) return
   formEl.resetFields()
-  image.value = ''
 }
 const handleChange = (value) => {
   console.log(value[value.length - 1])
@@ -323,11 +302,26 @@ const showFileManager = (image_type1) => {
 const selectedImage = (file) => {
   console.log('selected-选择的图片是：' + file.url)
   ruleForm.value.image = file.url
+  image_show_plus.value = false
 }
 const selectedImages = (file) => {
   console.log('selected-选择的图片是：' + file.url)
   images.value.push(file.url)
   console.log(images.value)
+  if (images.value.length >= images_count.value) {
+    images_show_plus.value = false
+  }
+}
+const removeImage = (index) => {
+  console.log(index)
+  ruleForm.value.image = ''
+  image_show_plus.value = true
+}
+
+const removeImage2 = (index) => {
+  console.log(index)
+  images.value.splice(index, 1)
+  images_show_plus.value = true
 }
 // export default {
 // 	data() {
