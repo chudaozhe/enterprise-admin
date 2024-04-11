@@ -17,15 +17,12 @@ const getUserId = () => {
  * @returns {Promise.<*>}
  */
 export async function gets(cid, keyword, page, max) {
-  const res = await http.get('/admin/' + getUserId() + '/filegroup/0/file', {
+  return http.get('/admin/' + getUserId() + '/filegroup/0/file', {
     cid: cid,
     keyword: keyword,
     page: page,
     max: max
   })
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
 }
 /**
  * 获取详情
@@ -33,10 +30,7 @@ export async function gets(cid, keyword, page, max) {
  * @returns {Promise.<*>}
  */
 export async function get(id) {
-  const res = await http.get('/admin/' + getUserId() + '/file/' + id, {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/file/' + id, {})
 }
 /**
  * 添加
@@ -44,10 +38,7 @@ export async function get(id) {
  * @returns {Promise.<*>}
  */
 export async function add(data) {
-  const res = await http.post('/admin/' + getUserId() + '/filegroup/' + getUserId() + '/file', data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.post('/admin/' + getUserId() + '/filegroup/' + getUserId() + '/file', data)
 }
 /**
  * 更新(未使用
@@ -56,13 +47,7 @@ export async function add(data) {
  * @returns {Promise.<*>}
  */
 export async function edit(id, data) {
-  const res = await http.put(
-    '/admin/' + getUserId() + '/filegroup/' + getUserId() + '/file/' + id,
-    data
-  )
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/filegroup/' + getUserId() + '/file/' + id, data)
 }
 /**
  * 删除
@@ -70,8 +55,5 @@ export async function edit(id, data) {
  * @returns {Promise.<*>}
  */
 export async function del(id) {
-  const res = await http.delete('/admin/' + getUserId() + '/file/' + id)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.delete('/admin/' + getUserId() + '/file/' + id)
 }

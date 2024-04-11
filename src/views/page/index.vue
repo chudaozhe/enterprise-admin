@@ -83,16 +83,8 @@ onMounted(() => {
 })
 const handleList = async () => {
   let result = await getPages(category_id.value, 1, max.value)
-  if (undefined === result.err) {
-    tableData.value = result.list
-    total.value = result.count > 0 ? parseInt(result.count) : 0
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  tableData.value = result.list
+  total.value = result.count > 0 ? parseInt(result.count) : 0
 }
 const handleCategoryList = async () => {
   let result = await gets(4)
@@ -114,22 +106,14 @@ const handleCreate = () => {
   router.push({ name: 'pageCreate' })
 }
 const handleDelete = async (id) => {
-  let result = await del(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '删除成功',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await del(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '删除成功',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList()
   document.querySelector('#app').click()
 }
 const handleChange = (category_id1) => {

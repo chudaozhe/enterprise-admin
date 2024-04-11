@@ -13,10 +13,7 @@ const getUserId = () => {
  * @returns {Promise.<*>}
  */
 export async function gets() {
-  const res = await http.get('/admin/' + getUserId() + '/flash', {})
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/flash', {})
 }
 /**
  * 获取详情
@@ -24,10 +21,7 @@ export async function gets() {
  * @returns {Promise.<*>}
  */
 export async function get(id) {
-  const res = await http.get('/admin/' + getUserId() + '/flash/' + id, {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/flash/' + id, {})
 }
 /**
  * 添加
@@ -35,10 +29,7 @@ export async function get(id) {
  * @returns {Promise.<*>}
  */
 export async function add(data) {
-  const res = await http.post('/admin/' + getUserId() + '/flash', data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.post('/admin/' + getUserId() + '/flash', data)
 }
 /**
  * statusDisplay
@@ -46,10 +37,7 @@ export async function add(data) {
  * @returns {Promise.<*>}
  */
 export async function statusDisplay(id) {
-  const res = await http.put('/admin/' + getUserId() + '/flash/' + id + '/display', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/flash/' + id + '/display', {})
 }
 /**
  * statusHidden
@@ -57,10 +45,7 @@ export async function statusDisplay(id) {
  * @returns {Promise.<*>}
  */
 export async function statusHidden(id) {
-  const res = await http.put('/admin/' + getUserId() + '/flash/' + id + '/hidden', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/flash/' + id + '/hidden', {})
 }
 /**
  * 更新
@@ -69,10 +54,7 @@ export async function statusHidden(id) {
  * @returns {Promise.<*>}
  */
 export async function edit(id, data) {
-  const res = await http.put('/admin/' + getUserId() + '/flash/' + id, data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/flash/' + id, data)
 }
 /**
  * 删除
@@ -80,8 +62,5 @@ export async function edit(id, data) {
  * @returns {Promise.<*>}
  */
 export async function del(id) {
-  const res = await http.delete('/admin/' + getUserId() + '/flash/' + id)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.delete('/admin/' + getUserId() + '/flash/' + id)
 }

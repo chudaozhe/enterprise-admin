@@ -16,13 +16,10 @@ const getUserId = () => {
  * @returns {Promise.<*>}
  */
 export async function gets(category_id, page, max) {
-  const res = await http.get('/admin/' + getUserId() + '/category/' + category_id + '/page', {
+  return http.get('/admin/' + getUserId() + '/category/' + category_id + '/page', {
     page: page,
     max: max
   })
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
 }
 /**
  * 获取详情
@@ -30,10 +27,7 @@ export async function gets(category_id, page, max) {
  * @returns {Promise.<*>}
  */
 export async function get(id) {
-  const res = await http.get('/admin/' + getUserId() + '/page/' + id, {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/page/' + id, {})
 }
 /**
  * 添加
@@ -43,10 +37,7 @@ export async function get(id) {
 export async function add(data) {
   let category_id = data['category_id'] ?? 0
   delete data.category_id
-  const res = await http.post('/admin/' + getUserId() + '/category/' + category_id + '/page', data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.post('/admin/' + getUserId() + '/category/' + category_id + '/page', data)
 }
 /**
  * 更新
@@ -57,13 +48,7 @@ export async function add(data) {
 export async function edit(id, data) {
   let category_id = data['category_id'] ?? 0
   delete data.category_id
-  const res = await http.put(
-    '/admin/' + getUserId() + '/category/' + category_id + '/page/' + id,
-    data
-  )
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/category/' + category_id + '/page/' + id, data)
 }
 /**
  * 删除
@@ -71,8 +56,5 @@ export async function edit(id, data) {
  * @returns {Promise.<*>}
  */
 export async function del(id) {
-  const res = await http.delete('/admin/' + getUserId() + '/page/' + id)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.delete('/admin/' + getUserId() + '/page/' + id)
 }

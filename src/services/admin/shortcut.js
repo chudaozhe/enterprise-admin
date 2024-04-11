@@ -13,10 +13,7 @@ const getUserId = () => {
  * @returns {Promise.<*>}
  */
 export async function gets() {
-  const res = await http.get('/admin/' + getUserId() + '/shortcut', {})
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/shortcut', {})
 }
 /**
  * 获取详情
@@ -24,10 +21,7 @@ export async function gets() {
  * @returns {Promise.<*>}
  */
 export async function get(id) {
-  const res = await http.get('/admin/' + getUserId() + '/shortcut/' + id, {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/shortcut/' + id, {})
 }
 /**
  * 添加
@@ -35,10 +29,7 @@ export async function get(id) {
  * @returns {Promise.<*>}
  */
 export async function add(data) {
-  const res = await http.post('/admin/' + getUserId() + '/shortcut', data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.post('/admin/' + getUserId() + '/shortcut', data)
 }
 /**
  * 更新
@@ -47,10 +38,7 @@ export async function add(data) {
  * @returns {Promise.<*>}
  */
 export async function edit(id, data) {
-  const res = await http.put('/admin/' + getUserId() + '/shortcut/' + id, data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/shortcut/' + id, data)
 }
 /**
  * statusDisplay
@@ -58,10 +46,7 @@ export async function edit(id, data) {
  * @returns {Promise.<*>}
  */
 export async function statusDisplay(id) {
-  const res = await http.put('/admin/' + getUserId() + '/shortcut/' + id + '/display', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/shortcut/' + id + '/display', {})
 }
 /**
  * statusHidden
@@ -69,10 +54,7 @@ export async function statusDisplay(id) {
  * @returns {Promise.<*>}
  */
 export async function statusHidden(id) {
-  const res = await http.put('/admin/' + getUserId() + '/shortcut/' + id + '/hidden', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/shortcut/' + id + '/hidden', {})
 }
 /**
  * 删除
@@ -80,8 +62,5 @@ export async function statusHidden(id) {
  * @returns {Promise.<*>}
  */
 export async function del(id) {
-  const res = await http.delete('/admin/' + getUserId() + '/shortcut/' + id)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.delete('/admin/' + getUserId() + '/shortcut/' + id)
 }

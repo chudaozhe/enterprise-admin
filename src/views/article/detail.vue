@@ -163,21 +163,13 @@ const $imgAdd = (pos, file) => {
     data.size = file.size
     data.title = file.name
     let result = await addFile(data)
-    console.log(result)
-    if (result.err === 0) {
-      instance.appContext.config.globalProperties.$message({
-        type: 'success',
-        message: '上传成功',
-        duration: 1000
-      })
-      mdRef.value.$imglst2Url([[pos, result.data.url]])
-    } else {
-      instance.appContext.config.globalProperties.$message({
-        type: 'error',
-        message: result.msg,
-        duration: 1000
-      })
-    }
+    // console.log(result)
+    instance.appContext.config.globalProperties.$message({
+      type: 'success',
+      message: '上传成功',
+      duration: 1000
+    })
+    mdRef.value.$imglst2Url([[pos, result.url]])
   })
 }
 //获取reader的result
@@ -205,59 +197,35 @@ const $imgDel = (pos) => {
 const handleDetail = async () => {
   if (id.value > 0) {
     let result = await get(id.value)
-    if (result.err === 0) {
-      ruleForm.value = result.data
-      ruleForm.value.category_ids = [parseInt(result.data.type), parseInt(result.data.category_id)]
-      if ('' !== ruleForm.value.images) {
-        images.value = result.data.images.split(',').filter((item) => item !== '')
-      }
-      image_show_plus.value = ruleForm.value.image.length === 0
-      images_show_plus.value = images.value.length < images_count.value
-    } else {
-      instance.appContext.config.globalProperties.$message({
-        type: 'error',
-        message: result.msg,
-        duration: 1000
-      })
+    ruleForm.value = result
+    ruleForm.value.category_ids = [parseInt(result.type), parseInt(result.category_id)]
+    if ('' !== ruleForm.value.images) {
+      images.value = ruleForm.value.images.split(',').filter((item) => item !== '')
     }
+    image_show_plus.value = ruleForm.value.image.length === 0
+    images_show_plus.value = images.value.length < images_count.value
   }
 }
 const handleCategoryList = async () => {
   options.value = await gets2()
 }
 const handleCreate = async (params) => {
-  let result = await add(params)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '添加成功',
-      duration: 1000
-    })
-    await router.push({ name: 'article' })
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await add(params)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '添加成功',
+    duration: 1000
+  })
+  await router.push({ name: 'article' })
 }
 const handleUpdate = async (id, params) => {
-  let result = await edit(id, params)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '修改成功',
-      duration: 1000
-    })
-    await router.push({ name: 'article' })
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await edit(id, params)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '修改成功',
+    duration: 1000
+  })
+  await router.push({ name: 'article' })
 }
 const submitForm = async (formEl) => {
   if (!formEl) return

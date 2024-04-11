@@ -45,11 +45,12 @@
 
 <script setup>
 import { gets, del } from '@/services/admin/category.js'
-import { onMounted, ref } from 'vue'
+import { getCurrentInstance, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { InfoFilled } from '@element-plus/icons-vue'
 
 const router = useRouter()
+const instance = getCurrentInstance()
 
 const type = ref(2)
 const tableData = ref([])
@@ -67,22 +68,14 @@ const handleUpdate = (index) => {
   console.log(index)
 }
 const handleDelete = async (id) => {
-  let result = await del(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '删除成功',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await del(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '删除成功',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList()
   document.querySelector('#app').click()
 }
 const handleCreate = () => {

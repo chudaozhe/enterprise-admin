@@ -16,14 +16,11 @@ const getUserId = () => {
  * @returns {Promise.<*>}
  */
 export async function gets(keyword, page, max) {
-  const res = await http.get('/admin/' + getUserId() + '/admin', {
+  return http.get('/admin/' + getUserId() + '/admin', {
     keyword: keyword,
     page: page,
     max: max
   })
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
 }
 /**
  * 获取详情
@@ -31,10 +28,7 @@ export async function gets(keyword, page, max) {
  * @returns {Promise.<*>}
  */
 export async function get(id) {
-  const res = await http.get('/admin/' + getUserId() + '/admin/' + id, {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/admin/' + id, {})
 }
 /**
  * 添加
@@ -42,10 +36,7 @@ export async function get(id) {
  * @returns {Promise.<*>}
  */
 export async function add(data) {
-  const res = await http.post('/admin/' + getUserId() + '/admin', data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.post('/admin/' + getUserId() + '/admin', data)
 }
 /**
  * 更新
@@ -54,10 +45,7 @@ export async function add(data) {
  * @returns {Promise.<*>}
  */
 export async function edit(id, data) {
-  const res = await http.put('/admin/' + getUserId() + '/admin/' + id, data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/admin/' + id, data)
 }
 /**
  * 删除
@@ -65,10 +53,7 @@ export async function edit(id, data) {
  * @returns {Promise.<*>}
  */
 export async function del(id) {
-  const res = await http.delete('/admin/' + getUserId() + '/admin/' + id)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.delete('/admin/' + getUserId() + '/admin/' + id)
 }
 /**
  * 重置密码
@@ -76,10 +61,7 @@ export async function del(id) {
  * @returns {Promise.<*>}
  */
 export async function reset(id) {
-  const res = await http.put('/admin/' + getUserId() + '/admin/' + id + '/reset', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/admin/' + id + '/reset', {})
 }
 /**
  * 禁用
@@ -87,10 +69,7 @@ export async function reset(id) {
  * @returns {Promise.<*>}
  */
 export async function disable(id) {
-  const res = await http.put('/admin/' + getUserId() + '/admin/' + id + '/disable', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/admin/' + id + '/disable', {})
 }
 /**
  * 启用
@@ -98,10 +77,7 @@ export async function disable(id) {
  * @returns {Promise.<*>}
  */
 export async function enable(id) {
-  const res = await http.put('/admin/' + getUserId() + '/admin/' + id + '/enable', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/admin/' + id + '/enable', {})
 }
 /**
  * 修改密码
@@ -110,13 +86,8 @@ export async function enable(id) {
  * @returns {Promise.<*>}
  */
 export async function changePassword(password, new_password) {
-  const res = await http.put('/admin/' + getUserId() + '/password', {
+  return http.put('/admin/' + getUserId() + '/password', {
     password: password,
     new_password: new_password
   })
-  console.log('changePassword')
-  console.log(res)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
 }

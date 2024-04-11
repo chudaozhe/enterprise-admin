@@ -18,7 +18,11 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)" style="width: 100%"
+          <el-button
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+            @keyup.enter="pressEnterToLogin"
+            style="width: 100%"
             >提交</el-button
           >
         </el-form-item>
@@ -31,11 +35,18 @@
 import { doLogin } from '../services/admin/user.js'
 import { useUserInfoStore } from '@/stores/store.js'
 import { useRoute, useRouter } from 'vue-router'
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import {getCurrentInstance, onMounted, onUnmounted, reactive, ref} from 'vue'
 import { get } from '@/services/admin/admin.js'
 const router = useRouter()
 const route = useRoute()
 const instance = getCurrentInstance()
+
+// 通过回车键登录
+const pressEnterToLogin = (e) => {
+  if (e.keyCode === 13) {
+    submitForm(ruleFormRef.value)
+  }
+}
 const checkUsername = (rule, value, callback) => {
   if (value === '') {
     return callback(new Error('用户名不能为空'))
@@ -57,8 +68,16 @@ const rules = reactive({
   password: [{ validator: validatePassword, trigger: 'blur' }],
   username: [{ validator: checkUsername, trigger: 'blur' }]
 })
+
 onMounted(() => {
   handleAdminDetail()
+  // 绑定监听事件
+  window.addEventListener('keydown', pressEnterToLogin)
+})
+
+onUnmounted(() => {
+  // 销毁事件
+  window.removeEventListener('keydown', pressEnterToLogin, false)
 })
 const handleLogin = async (username, password) => {
   let res = await doLogin(username, password)
@@ -90,10 +109,8 @@ const handleLogin = async (username, password) => {
  * @returns {Promise<void>}
  */
 const handleAdminDetail = async () => {
-  let res = await get(1)
-  if (res?.data) {
-    await router.push({ name: 'admin' })
-  }
+  await get(1)
+  await router.push({ name: 'admin' })
 }
 const submitForm = async (formEl) => {
   if (!formEl) return

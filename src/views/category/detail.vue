@@ -52,52 +52,27 @@ onMounted(() => {
 })
 const handleDetail = async () => {
   if (id.value > 0) {
-    let result = await get(id.value)
-    if (result.err === 0) {
-      ruleForm.value = result.data
-      // ruleForm.value=field.type.toString();
-    } else {
-      instance.appContext.config.globalProperties.$message({
-        type: 'error',
-        message: result.msg,
-        duration: 1000
-      })
-    }
+    ruleForm.value = await get(id.value)
+    // ruleForm.value=field.type.toString();
   }
 }
 const handleCreate = async (params) => {
-  let result = await add(params)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '添加成功',
-      duration: 1000
-    })
-    router.push({ name: 'category' })
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await add(params)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '添加成功',
+    duration: 1000
+  })
+  await router.push({ name: 'category' })
 }
 const handleUpdate = async (id, params) => {
-  let result = await edit(id, params)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '修改成功',
-      duration: 1000
-    })
-    router.push({ name: 'category' })
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await edit(id, params)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '修改成功',
+    duration: 1000
+  })
+  await router.push({ name: 'category' })
 }
 const submitForm = async (formEl) => {
   if (!formEl) return

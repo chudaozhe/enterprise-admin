@@ -7,8 +7,5 @@ import http from '../../utils/axios'
  * @returns {Promise.<*>}
  */
 export async function doLogin(username, password) {
-  const res = await http.post('/admin/login', { username: username, password: password })
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
+  return http.post('/admin/login', { username: username, password: password })
 }

@@ -17,14 +17,11 @@ const getUserId = () => {
  * @returns {Promise.<*>}
  */
 export async function gets(category_id, keyword, page, max) {
-  const res = await http.get('/admin/' + getUserId() + '/category/' + category_id + '/case', {
+  return http.get('/admin/' + getUserId() + '/category/' + category_id + '/case', {
     keyword: keyword,
     page: page,
     max: max
   })
-  if (undefined !== res.data) {
-    return res.data.data
-  } else return res
 }
 /**
  * 获取详情
@@ -32,10 +29,7 @@ export async function gets(category_id, keyword, page, max) {
  * @returns {Promise.<*>}
  */
 export async function get(id) {
-  const res = await http.get('/admin/' + getUserId() + '/case/' + id, {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.get('/admin/' + getUserId() + '/case/' + id, {})
 }
 /**
  * 添加
@@ -45,10 +39,7 @@ export async function get(id) {
 export async function add(data) {
   let category_id = data['category_id'] ?? 0
   delete data.category_id
-  const res = await http.post('/admin/' + getUserId() + '/category/' + category_id + '/case', data)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.post('/admin/' + getUserId() + '/category/' + category_id + '/case', data)
 }
 /**
  * statusDisplay
@@ -56,10 +47,7 @@ export async function add(data) {
  * @returns {Promise.<*>}
  */
 export async function statusDisplay(id) {
-  const res = await http.put('/admin/' + getUserId() + '/case/' + id + '/display', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/case/' + id + '/display', {})
 }
 /**
  * statusHidden
@@ -67,10 +55,7 @@ export async function statusDisplay(id) {
  * @returns {Promise.<*>}
  */
 export async function statusHidden(id) {
-  const res = await http.put('/admin/' + getUserId() + '/case/' + id + '/hidden', {})
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/case/' + id + '/hidden', {})
 }
 /**
  * 更新
@@ -81,13 +66,7 @@ export async function statusHidden(id) {
 export async function edit(id, data) {
   let category_id = data['category_id'] ?? 0
   delete data.category_id
-  const res = await http.put(
-    '/admin/' + getUserId() + '/category/' + category_id + '/case/' + id,
-    data
-  )
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.put('/admin/' + getUserId() + '/category/' + category_id + '/case/' + id, data)
 }
 /**
  * 删除
@@ -95,8 +74,5 @@ export async function edit(id, data) {
  * @returns {Promise.<*>}
  */
 export async function del(id) {
-  const res = await http.delete('/admin/' + getUserId() + '/case/' + id)
-  if (undefined !== res.data) {
-    return res.data
-  } else return res
+  return http.delete('/admin/' + getUserId() + '/case/' + id)
 }

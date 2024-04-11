@@ -21,7 +21,7 @@
 
 <script setup>
 import FileItem from '@/components/filemanager/file-item.vue'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { gets } from '@/services/admin/file.js'
 import config from '@/config.js'
 const host = config.baseURL
@@ -31,26 +31,17 @@ const activeName = ref('1')
 const tableData = ref([])
 const emits = defineEmits(['selected'])
 
-const instance = getCurrentInstance()
 onMounted(() => {
-  listByFile(0, '', 1, 1000)
+  handleList(0, '', 1, 1000)
 })
 
 const selected = (file) => {
   dialogVisible.value = false
   emits('selected', file)
 }
-const listByFile = async (cid, keyword, page, max) => {
+const handleList = async (cid, keyword, page, max) => {
   let result = await gets(cid, keyword, page, max)
-  if (undefined === result.err) {
-    tableData.value = result.list
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  tableData.value = result.list
 }
 const show = () => {
   dialogVisible.value = true

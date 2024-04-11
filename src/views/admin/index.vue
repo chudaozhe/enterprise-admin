@@ -155,75 +155,43 @@ const formatDate = (time) => {
 }
 const handleList = async (keyword, page, max) => {
   let result = await gets(keyword, page, max)
-  if (undefined === result.err) {
-    tableData.value = result.list
-    total.value = result.count > 0 ? parseInt(result.count) : 0
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  tableData.value = result.list
+  total.value = result.count > 0 ? parseInt(result.count) : 0
 }
 const cancel = () => {
   console.log('取消')
   document.querySelector('#app').click()
 }
 const handleReset = async (id) => {
-  let result = await reset(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '已重置，新密码已发送到对应E-mail',
-      duration: 1000
-    })
-    document.querySelector('#app').click()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await reset(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '已重置，新密码已发送到对应E-mail',
+    duration: 1000
+  })
+  document.querySelector('#app').click()
 }
 const handleDisable = async (id) => {
-  let result = await disable(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '已禁用',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList(keyword.value, 1, max.value)
-    document.querySelector('#app').click()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await disable(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '已禁用',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList(keyword.value, 1, max.value)
+  document.querySelector('#app').click()
 }
 const handleEnable = async (id) => {
-  let result = await enable(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '已启用',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList(keyword.value, 1, max.value)
-    document.querySelector('#app').click()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await enable(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '已启用',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList(keyword.value, 1, max.value)
+  document.querySelector('#app').click()
 }
 const handleAuth = (index) => {
   console.log('Auth:')
@@ -243,23 +211,15 @@ const handleCurrentChange = (page) => {
   console.log(`当前页: ${page}`)
 }
 const handleDelete = async (id) => {
-  let result = await del(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '删除成功',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList(keyword.value, 1, max.value)
-    document.querySelector('#app').click()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await del(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '删除成功',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList(keyword.value, 1, max.value)
+  document.querySelector('#app').click()
 }
 const onSubmit = () => {
   handleList(keyword.value, 1, max.value)

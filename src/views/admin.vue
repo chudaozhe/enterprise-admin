@@ -291,23 +291,15 @@ const resetForm = (formEl) => {
 }
 
 const handlePassword = async (password, new_password) => {
-  let result = await changePassword(password, new_password)
-  if (result.err === 0) {
-    dialogFormVisible.value = false
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '修改成功，请重新登录',
-      duration: 1000
-    })
-    userInfoStore().removeUserInfo()
-    await router.push({ name: 'login' })
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await changePassword(password, new_password)
+  dialogFormVisible.value = false
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '修改成功，请重新登录',
+    duration: 1000
+  })
+  userInfoStore().removeUserInfo()
+  await router.push({ name: 'login' })
 }
 //退出登录
 const handleLogout = async () => {

@@ -63,16 +63,8 @@ const handleChange = (file, fileList) => {
 }
 const handleList = async (cid, keyword, page, max) => {
   let result = await gets(cid, keyword, page, max)
-  if (undefined === result.err) {
-    tableData.value = result.list
-    total.value = result.count > 0 ? parseInt(result.count) : 0
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  tableData.value = result.list
+  total.value = result.count > 0 ? parseInt(result.count) : 0
 }
 const handleUpload = async (params) => {
   // const formData = new FormData()
@@ -88,23 +80,15 @@ const handleUpload = async (params) => {
     data.height = file.height
     data.size = params.file.size
     data.title = params.file.name
-    let result = await add(data)
-    if (result.err === 0) {
-      instance.appContext.config.globalProperties.$message({
-        type: 'success',
-        message: '上传成功',
-        duration: 1000
-      })
-      //重新请求数据
-      await handleList(cid.value, keyword.value, 1, max.value)
-      document.querySelector('#app').click()
-    } else {
-      instance.appContext.config.globalProperties.$message({
-        type: 'error',
-        message: result.msg,
-        duration: 1000
-      })
-    }
+    await add(data)
+    instance.appContext.config.globalProperties.$message({
+      type: 'success',
+      message: '上传成功',
+      duration: 1000
+    })
+    //重新请求数据
+    await handleList(cid.value, keyword.value, 1, max.value)
+    document.querySelector('#app').click()
   })
 }
 //获取reader的result
@@ -126,22 +110,14 @@ const uploadFile = (file) => {
   })
 }
 const handleDelete = async (id) => {
-  let result = await del(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '删除成功',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList(cid.value, keyword.value, page.value, max.value)
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await del(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '删除成功',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList(cid.value, keyword.value, page.value, max.value)
 }
 const handleSizeChange = (val) => {
   console.log(`每页 ${val} 条`)

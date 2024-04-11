@@ -130,16 +130,8 @@ onMounted(() => {
 
 const handleList = async () => {
   let result = await getCases(category_id.value, keyword.value, page.value, max.value)
-  if (undefined === result.err) {
-    tableData.value = result.list
-    total.value = result.count > 0 ? parseInt(result.count) : 0
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  tableData.value = result.list
+  total.value = result.count > 0 ? parseInt(result.count) : 0
 }
 const handleCategoryList = async () => {
   let result = await gets(3)
@@ -161,59 +153,35 @@ const handleCreate = () => {
   router.push({ name: 'caseCreate' })
 }
 const handleDelete = async (id) => {
-  let result = await del(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '删除成功',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await del(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '删除成功',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList()
   document.querySelector('#app').click()
 }
 const handleDisplay = async (id) => {
-  let result = await statusDisplay(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '已显示',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await statusDisplay(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '已显示',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList()
 }
 const handleHidden = async (id) => {
-  let result = await statusHidden(id)
-  if (result.err === 0) {
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '已隐藏',
-      duration: 1000
-    })
-    //重新请求数据
-    await handleList()
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: result.msg,
-      duration: 1000
-    })
-  }
+  await statusHidden(id)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '已隐藏',
+    duration: 1000
+  })
+  //重新请求数据
+  await handleList()
 }
 const handleSizeChange = (val) => {
   console.log(`每页 ${val} 条`)
