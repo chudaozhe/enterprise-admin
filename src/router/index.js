@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useUserInfoStore } from '@/stores/store'
 
 import { ElMessage } from 'element-plus'
@@ -30,7 +30,10 @@ import FlashList from '@/views/flash/index.vue'
 import FlashDetail from '@/views/flash/detail.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history:
+    import.meta.env.VITE_ROUTER_MODE === 'history'
+      ? createWebHistory(import.meta.env.BASE_URL)
+      : createWebHashHistory(),
   routes: [
     { path: '/', component: Login },
     { path: '/login', name: 'login', component: Login },

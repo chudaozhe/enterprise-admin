@@ -35,7 +35,7 @@
 import { doLogin } from '../services/admin/user.js'
 import { useUserInfoStore } from '@/stores/store.js'
 import { useRoute, useRouter } from 'vue-router'
-import {getCurrentInstance, onMounted, onUnmounted, reactive, ref} from 'vue'
+import { getCurrentInstance, onMounted, onUnmounted, reactive, ref } from 'vue'
 const router = useRouter()
 const route = useRoute()
 const instance = getCurrentInstance()
@@ -100,7 +100,7 @@ const handleLogin = async (username, password) => {
  * @returns {Promise<void>}
  */
 const navigateToAdminIfUserExists = async () => {
-  if(!useUserInfoStore().isEmpty()) {
+  if (!useUserInfoStore().isEmpty()) {
     await router.push({ name: 'admin' })
   }
 }

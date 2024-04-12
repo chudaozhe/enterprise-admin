@@ -37,8 +37,8 @@ Vue3 + Element Plus
 
 1. 安装`gh-pages`, `npm install gh-pages --save-dev`
 2. 修改`package.json`中的`scripts`下面增加`"deploy": "gh-pages -d web"`
-3. 临时修改项目的路由模式为`hash`，修改`src/router/index.js`文件中的`history`为`createWebHashHistory()`
-4. 临时修改`vite.config.js`的`defineConfig`的`base`为相对路径`./`或者`'/enterprise-admin/'`
+3. 临时修改项目的路由模式为`hash`：修改特定的 env 文件，比如`env.production`中的`VITE_ROUTER_MODE`为`hash`
+4. 部署到子目录，需要修改特定的 env 文件，比如`env.production`中的`VITE_PUBLIC_BASE_PATH`为`./`或者`/enterprise-admin/`
 5. 打包，`npm run build`
 6. 部署，`npm run deploy`
 7. 把`3`和`4`改回去
@@ -87,13 +87,29 @@ npm install
 ### Compile and Hot-Reload for Development
 
 ```sh
+#运行开发环境
 npm run dev
+#运行测试环境
+npm run test
+#运行预发布环境
+npm run stage
+#运行生产环境
+npm run prod
 ```
 
 ### Compile and Minify for Production
 
 ```sh
+#生产环境打包（等价于npm run build:prod）
 npm run build
+#开发环境打包
+npm run build:dev
+#测试环境打包
+npm run build:test
+#预发布环境打包
+npm run build:stage
+#生产环境打包
+npm run build:prod
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
