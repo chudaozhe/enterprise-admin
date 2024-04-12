@@ -43,13 +43,12 @@
 import { get, add, edit } from '@/services/admin/flash.js'
 import FileManager from '../../components/filemanager/file-manager.vue'
 import config from '@/config.js'
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import GridView from '@/components/grid-view.vue'
 
 const route = useRoute()
 const router = useRouter()
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const id = ref(route.params.id)
@@ -76,7 +75,7 @@ const handleDetail = async () => {
 }
 const handleCreate = async (params) => {
   await add(params)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '添加成功',
     duration: 1000
@@ -85,7 +84,7 @@ const handleCreate = async (params) => {
 }
 const handleUpdate = async (id, params) => {
   await edit(id, params)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '修改成功',
     duration: 1000

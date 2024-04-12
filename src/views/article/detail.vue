@@ -97,13 +97,12 @@ import { gets2 } from '@/services/admin/category.js'
 import FileManager from '../../components/filemanager/file-manager.vue'
 import { add as addFile } from '../../services/admin/file.js'
 import config from '@/config.js'
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import GridView from '@/components/grid-view.vue'
 
 const router = useRouter()
 const route = useRoute()
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const images = ref([])
@@ -164,7 +163,7 @@ const $imgAdd = (pos, file) => {
     data.title = file.name
     let result = await addFile(data)
     // console.log(result)
-    instance.appContext.config.globalProperties.$message({
+    ElMessage({
       type: 'success',
       message: '上传成功',
       duration: 1000
@@ -211,7 +210,7 @@ const handleCategoryList = async () => {
 }
 const handleCreate = async (params) => {
   await add(params)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '添加成功',
     duration: 1000
@@ -220,7 +219,7 @@ const handleCreate = async (params) => {
 }
 const handleUpdate = async (id, params) => {
   await edit(id, params)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '修改成功',
     duration: 1000

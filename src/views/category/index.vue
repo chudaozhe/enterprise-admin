@@ -45,12 +45,11 @@
 
 <script setup>
 import { gets, del } from '@/services/admin/category.js'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { InfoFilled } from '@element-plus/icons-vue'
 
 const router = useRouter()
-const instance = getCurrentInstance()
 
 const type = ref(2)
 const tableData = ref([])
@@ -69,7 +68,7 @@ const handleUpdate = (index) => {
 }
 const handleDelete = async (id) => {
   await del(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '删除成功',
     duration: 1000

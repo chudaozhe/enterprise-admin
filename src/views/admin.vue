@@ -93,10 +93,9 @@
 import { useUserInfoStore } from '@/stores/store.js'
 import { changePassword } from '@/services/admin/admin.js'
 import config from '@/config.js'
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 const router = useRouter()
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const sysName = ref('管理后台')
@@ -293,7 +292,7 @@ const resetForm = (formEl) => {
 const handlePassword = async (password, new_password) => {
   await changePassword(password, new_password)
   dialogFormVisible.value = false
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '修改成功，请重新登录',
     duration: 1000
@@ -303,12 +302,11 @@ const handlePassword = async (password, new_password) => {
 }
 //退出登录
 const handleLogout = async () => {
-  await instance.appContext.config.globalProperties
-    .$confirm('确认退出吗?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'info'
-    })
+  await ElMessageBox.confirm('确认退出吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'info'
+  })
     .then(() => {
       userInfoStore().removeUserInfo()
       router.push({ name: 'login' })

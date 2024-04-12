@@ -1,5 +1,3 @@
-import { ElMessage } from 'element-plus'
-
 export default function promiseRejectionEvent(event) {
   console.log('unhandledrejection:', event.reason) // 捕获后自定义处理
   ElMessage({

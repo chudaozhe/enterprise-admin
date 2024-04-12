@@ -40,7 +40,7 @@
 </template>
 <script setup>
 import { get, add, edit } from '@/services/admin/admin.js'
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import config from '@/config.js'
 import { useUserInfoStore } from '@/stores/store.js'
@@ -49,7 +49,6 @@ import GridView from '@/components/grid-view.vue'
 
 const route = useRoute()
 const router = useRouter()
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const ruleFormRef = ref()
@@ -80,7 +79,7 @@ const handleDetail = async () => {
 }
 const handleCreate = async (params) => {
   await add(params)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '添加成功',
     duration: 1000
@@ -95,7 +94,7 @@ const handleUpdate = async (id, params) => {
   if ('' !== params.avatar || '' !== params.nickname) {
     userInfoStore().setUserInfo(user)
   }
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '修改成功',
     duration: 1000

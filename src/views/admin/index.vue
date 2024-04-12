@@ -132,13 +132,12 @@
 <script setup>
 import { formatdate } from '@/utils/date.js'
 import { gets, del, disable, enable, reset } from '@/services/admin/admin.js'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import config from '@/config.js'
 import { useRouter } from 'vue-router'
 import { InfoFilled } from '@element-plus/icons-vue'
 
 let router = useRouter()
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const max = ref(10)
@@ -164,7 +163,7 @@ const cancel = () => {
 }
 const handleReset = async (id) => {
   await reset(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '已重置，新密码已发送到对应E-mail',
     duration: 1000
@@ -173,7 +172,7 @@ const handleReset = async (id) => {
 }
 const handleDisable = async (id) => {
   await disable(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '已禁用',
     duration: 1000
@@ -184,7 +183,7 @@ const handleDisable = async (id) => {
 }
 const handleEnable = async (id) => {
   await enable(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '已启用',
     duration: 1000
@@ -212,7 +211,7 @@ const handleCurrentChange = (page) => {
 }
 const handleDelete = async (id) => {
   await del(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '删除成功',
     duration: 1000

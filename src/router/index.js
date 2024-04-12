@@ -1,8 +1,6 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useUserInfoStore } from '@/stores/store'
 
-import { ElMessage } from 'element-plus'
-
 import Login from '@/views/login.vue'
 import Admin from '@/views/admin.vue'
 

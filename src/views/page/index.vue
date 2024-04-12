@@ -62,11 +62,10 @@
 <script setup>
 import { gets as getPages, del } from '@/services/admin/page.js'
 import { gets } from '@/services/admin/category.js'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import config from '@/config'
 import { useRouter } from 'vue-router'
 import { InfoFilled } from '@element-plus/icons-vue'
-const instance = getCurrentInstance()
 
 const router = useRouter()
 const host = ref(config.baseURL)
@@ -107,7 +106,7 @@ const handleCreate = () => {
 }
 const handleDelete = async (id) => {
   await del(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '删除成功',
     duration: 1000

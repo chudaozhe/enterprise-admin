@@ -35,10 +35,9 @@
 import { doLogin } from '../services/admin/user.js'
 import { useUserInfoStore } from '@/stores/store.js'
 import { useRoute, useRouter } from 'vue-router'
-import { getCurrentInstance, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 const router = useRouter()
 const route = useRoute()
-const instance = getCurrentInstance()
 
 // 通过回车键登录
 const pressEnterToLogin = (e) => {
@@ -86,7 +85,7 @@ const handleLogin = async (username, password) => {
   data.avatar = res.avatar
   data.token = res.token
   useUserInfoStore().setUserInfo(data)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '您已登录',
     duration: 1000

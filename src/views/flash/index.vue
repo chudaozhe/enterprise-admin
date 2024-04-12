@@ -59,12 +59,11 @@
 <script setup>
 import { gets, del, statusDisplay, statusHidden } from '@/services/admin/flash.js'
 import config from '@/config.js'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { InfoFilled } from '@element-plus/icons-vue'
 
 const router = useRouter()
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const tableData = ref([])
@@ -85,7 +84,7 @@ const handleCreate = () => {
 }
 const handleDelete = async (id) => {
   await del(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '删除成功',
     duration: 1000
@@ -96,7 +95,7 @@ const handleDelete = async (id) => {
 }
 const handleDisplay = async (id) => {
   await statusDisplay(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '已显示',
     duration: 1000
@@ -106,7 +105,7 @@ const handleDisplay = async (id) => {
 }
 const handleHidden = async (id) => {
   await statusHidden(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '已隐藏',
     duration: 1000

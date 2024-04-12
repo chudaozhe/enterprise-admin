@@ -41,10 +41,8 @@
 <script setup>
 import FileItem from '../../components/filemanager/file-item.vue'
 import { add, gets, del } from '@/services/admin/file.js'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import config from '@/config.js'
-
-const instance = getCurrentInstance()
 
 const host = ref(config.baseURL)
 const cid = ref(0)
@@ -81,7 +79,7 @@ const handleUpload = async (params) => {
     data.size = params.file.size
     data.title = params.file.name
     await add(data)
-    instance.appContext.config.globalProperties.$message({
+    ElMessage({
       type: 'success',
       message: '上传成功',
       duration: 1000
@@ -111,7 +109,7 @@ const uploadFile = (file) => {
 }
 const handleDelete = async (id) => {
   await del(id)
-  instance.appContext.config.globalProperties.$message({
+  ElMessage({
     type: 'success',
     message: '删除成功',
     duration: 1000
@@ -133,10 +131,10 @@ const beforeUpload = (file) => {
   const isGIF = file.type === 'image/gif'
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isJPG && !isPNG && !isGIF) {
-    instance.appContext.config.globalProperties.$message.error('上传图片只能是 JPG/PNG/GIF 格式!')
+    ElMessage.error('上传图片只能是 JPG/PNG/GIF 格式!')
   }
   if (!isLt2M) {
-    instance.appContext.config.globalProperties.$message.error('上传头像图片大小不能超过 2MB!')
+    ElMessage.error('上传头像图片大小不能超过 2MB!')
   }
   return (isJPG || isPNG || isGIF) && isLt2M
 }
