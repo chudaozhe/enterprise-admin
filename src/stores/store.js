@@ -14,10 +14,14 @@ export const useUserInfoStore = defineStore(
       userInfo.value = {}
     }
 
+    const isEmpty = () => {
+      return Object.keys(userInfo.value).length === 0
+    }
     return {
       userInfo,
       setUserInfo,
-      removeUserInfo
+      removeUserInfo,
+      isEmpty
     }
   },
   {

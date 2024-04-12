@@ -46,7 +46,11 @@ function checkStatus(response) {
 function checkCode(res) {
   if (res.data && res.data.err > 0) {
     if ([900, 901, 902, 401].includes(res.data.err)) {
-      return router.push({ name: 'login' })
+      useUserInfoStore().removeUserInfo()
+      //目的是先抛异常，然后跳转登录页
+      setTimeout(() => {
+        return router.push({ name: 'login' })
+      }, 0)
     }
     //在main.js中配置了全局错误拦截器，所以这里不用处理错误了
     return Promise.reject(res.data)

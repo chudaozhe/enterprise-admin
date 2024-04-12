@@ -36,7 +36,6 @@ import { doLogin } from '../services/admin/user.js'
 import { useUserInfoStore } from '@/stores/store.js'
 import { useRoute, useRouter } from 'vue-router'
 import {getCurrentInstance, onMounted, onUnmounted, reactive, ref} from 'vue'
-import { get } from '@/services/admin/admin.js'
 const router = useRouter()
 const route = useRoute()
 const instance = getCurrentInstance()
@@ -70,7 +69,7 @@ const rules = reactive({
 })
 
 onMounted(() => {
-  handleAdminDetail()
+  navigateToAdminIfUserExists()
   // 绑定监听事件
   window.addEventListener('keydown', pressEnterToLogin)
 })
@@ -81,36 +80,29 @@ onUnmounted(() => {
 })
 const handleLogin = async (username, password) => {
   let res = await doLogin(username, password)
-  if (res?.id) {
-    let data = {}
-    data.id = res.id
-    data.nickname = res.nickname
-    data.avatar = res.avatar
-    data.token = res.token
-    useUserInfoStore().setUserInfo(data)
-    instance.appContext.config.globalProperties.$message({
-      type: 'success',
-      message: '您已登录',
-      duration: 1000
-    })
-    let redirect = route.query.redirect
-    let url = undefined !== redirect ? redirect : '/admin'
-    await router.push(url)
-  } else {
-    instance.appContext.config.globalProperties.$message({
-      type: 'error',
-      message: res.msg,
-      duration: 1000
-    })
-  }
+  let data = {}
+  data.id = res.id
+  data.nickname = res.nickname
+  data.avatar = res.avatar
+  data.token = res.token
+  useUserInfoStore().setUserInfo(data)
+  instance.appContext.config.globalProperties.$message({
+    type: 'success',
+    message: '您已登录',
+    duration: 1000
+  })
+  let redirect = route.query.redirect
+  let url = undefined !== redirect ? redirect : '/admin'
+  await router.push(url)
 }
 /**
- * 验证是否已登录
+ * 如果用户信息存在，则跳转到后台
  * @returns {Promise<void>}
  */
-const handleAdminDetail = async () => {
-  await get(1)
-  await router.push({ name: 'admin' })
+const navigateToAdminIfUserExists = async () => {
+  if(!useUserInfoStore().isEmpty()) {
+    await router.push({ name: 'admin' })
+  }
 }
 const submitForm = async (formEl) => {
   if (!formEl) return
