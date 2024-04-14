@@ -32,6 +32,7 @@
           </div>
         </el-form-item>
         <el-form-item label="内容" prop="content">
+          <RichTextEditor v-model="ruleForm.content" v-if="config.editor === 'html'" />
           <MarkdownEditor v-model="ruleForm.content" v-if="config.editor === 'md'" />
           <!--<el-input type="textarea" v-model="ruleForm.content"></el-input>-->
         </el-form-item>
@@ -52,6 +53,7 @@ import { useRoute, useRouter } from 'vue-router'
 import config from '@/config.js'
 import GridView from '@/components/grid-view.vue'
 import MarkdownEditor from '@/components/markdown-editor.vue'
+import RichTextEditor from '@/components/rich-text-editor.vue'
 
 const route = useRoute()
 const router = useRouter()
