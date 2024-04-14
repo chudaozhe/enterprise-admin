@@ -10,6 +10,27 @@
   </div>
 </template>
 
+<script setup>
+import { onMounted } from 'vue'
+
+const props = defineProps(['image_prefix', 'images', 'show_plus'])
+const emits = defineEmits(['showFileManager', 'removeImage'])
+
+onMounted(() => {
+  console.log('images')
+  console.log(JSON.stringify(props.images))
+})
+
+const showFileManager = () => {
+  // console.log('send showFileManager item')
+  emits('showFileManager', null)
+}
+
+const removeImage = (index) => {
+  emits('removeImage', index)
+}
+</script>
+
 <style lang="scss" scoped>
 .container {
   display: grid;
@@ -57,23 +78,3 @@
   padding: 5px;
 }
 </style>
-<script setup>
-import { onMounted } from 'vue'
-
-const props = defineProps(['image_prefix', 'images', 'show_plus'])
-const emits = defineEmits(['showFileManager', 'removeImage'])
-
-onMounted(() => {
-  console.log('images')
-  console.log(JSON.stringify(props.images))
-})
-
-const showFileManager = () => {
-  // console.log('send showFileManager item')
-  emits('showFileManager', null)
-}
-
-const removeImage = (index) => {
-  emits('removeImage', index)
-}
-</script>

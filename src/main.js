@@ -11,8 +11,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import router from './router'
 
-import mavonEditor from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+// import mavonEditor from 'mavon-editor'
+// import 'mavon-editor/dist/css/index.css'
 
 import promiseRejectionEvent from './utils/promiseRejectionEvent'
 import errorHandler from './utils/errorHandler'
@@ -31,7 +31,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
-app.use(mavonEditor)
+// app.use(mavonEditor)
 // 用于为应用内抛出的未捕获错误指定一个全局处理函数。
 app.config.errorHandler = errorHandler
 // 全局统一处理Promise异常
