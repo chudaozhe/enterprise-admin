@@ -26,7 +26,7 @@ Vue3 + Element Plus
 
 - [GitHub Pages](https://pages.github.com/) -> https://chudaozhe.github.io/enterprise-admin
 - [Vercel](https://www.vercel.com/) -> https://enterprise-admin-five.vercel.app
-- [Netlify](https://www.netlify.com/)
+- [Netlify](https://www.netlify.com/) -> https://enterprise-admin.netlify.app
 - [Render](https://www.render.com/) -> https://enterprise-admin.onrender.com/
 - [Railway](https://railway.app/)
 - [Heroku](https://www.heroku.com/)
